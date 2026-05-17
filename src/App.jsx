@@ -159,6 +159,9 @@ const g = sg || D.settings;
 
   await db.set("lzl-u", u);
 };
+  const onSaveUsers = async (updatedUsers) => {
+  await saveU(updatedUsers);
+};
   const saveT = async t => { setTours(t); await db.set("lzl-t",t); };
   const saveR = async r => { setReqs(r); await db.set("lzl-r",r); };
   const saveG = async g => { setSettings(g); await db.set("lzl-g",g); };
