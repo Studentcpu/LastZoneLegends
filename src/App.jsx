@@ -977,68 +977,41 @@ function AdminUsers({ users, onSave, toast }) {
     toast("✅ User updated!");
   };
 
-  const addBal = async (uid, amt) => {
-    const n = Number(amt);
+  const addBal = async(uid, amt) => {
+  const n = Number(amt);
+  if (isNaN(n) || n <= 0) return;
 
-    if (isNaN(n) || n <= 0) return;
+  const updatedUsers = users.map(u =>
+    u.id === uid
+      ? {
+          ...u,
+          balance: Number(u.balance || 0) + n
+        }
+      : u
+  );
 
-    const tx = {
-      id: Date.now(),
-      type: "credit",
-      desc: `Admin Added ₹${n}`,
-      amount: n,
-      date: new Date().toLocaleDateString("en-IN"),
-      status: "done"
-    };
+  await onSave(updatedUsers);
 
-    await onSave(
-      users.map(u =>
-        u.id === uid
-          ? {
-              ...u,
-              balance: u.balance + n,
-              transactions: [tx, ...(u.transactions || [])]
-            }
-          : u
-      )
-    );
+  toast(`✅ ₹${n} added`);
+};
 
-    toast(`✅ ₹${n} added!`);
-  };
+const deductBal = async(uid, amt) => {
+  const n = Number(amt);
+  if (isNaN(n) || n <= 0) return;
 
-  const deductBal = async (uid, amt) => {
-    const n = Number(amt);
+  const updatedUsers = users.map(u =>
+    u.id === uid
+      ? {
+          ...u,
+          balance: Math.max(0, Number(u.balance || 0) - n)
+        }
+      : u
+  );
 
-    if (isNaN(n) || n <= 0) return;
+  await onSave(updatedUsers);
 
-    const tgt = users.find(u => u.id === uid);
-
-    if (tgt.balance < n)
-      return toast("❌ Not enough balance", "error");
-
-    const tx = {
-      id: Date.now(),
-      type: "debit",
-      desc: `Admin Deducted ₹${n}`,
-      amount: n,
-      date: new Date().toLocaleDateString("en-IN"),
-      status: "done"
-    };
-
-    await onSave(
-      users.map(u =>
-        u.id === uid
-          ? {
-              ...u,
-              balance: u.balance - n,
-              transactions: [tx, ...(u.transactions || [])]
-            }
-          : u
-      )
-    );
-
-    toast(`✅ ₹${n} deducted!`);
-  };
+  toast(`✅ ₹${n} deducted`);
+};
 
   return (
  
