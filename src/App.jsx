@@ -197,11 +197,23 @@ if(email==="admin@lastzone.com" && pass==="admin123"){
       return toast("❌ User not found", "error");
     }
 
-    const found = snap.docs[0].data();
+const found = snap.docs[0].data();
 
-    if (found.password !== pass) {
-      return toast("❌ Wrong password", "error");
-    }
+const localUser = users.find(
+  u => u.id === found.id
+);
+
+setUser(localUser || found);
+
+db.set("lzl-s", {
+  id: found.id
+});
+
+setScreen(
+  found.role === "admin"
+    ? "admin"
+    : "app"
+);
 
     setUser(found);
     db.set("lzl-s", { id: found.id });
