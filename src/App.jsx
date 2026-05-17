@@ -312,15 +312,50 @@ setUser({...nu, balance:0});
     const req={id:Date.now(),type:"withdraw",userId:user.id,userName:user.name,userEmail:user.email,amount:Number(amount),upiId,upiName,status:"pending",date:new Date().toLocaleDateString("en-IN"),time:new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})};
     await saveU(users.map(u=>u.id===user.id?nu:u)); await saveR([req,...reqs]); setUser(nu); toast("✅ Withdrawal requested!");
   };
+const approveDeposit = async (id) => {
+  const req = reqs.find(r => r.id === id);
+  if (!req) return;
 
-  const approveDeposit = async id => {
-    const req=reqs.find(r=>r.id===id); if(!req) return;
-    const tu=users.find(u=>u.id===req.userId); if(!tu) return;
-    const tx={id:Date.now(),type:"credit",desc:`Deposit Approved ₹${req.amount}`,amount:req.amount,date:new Date().toLocaleDateString("en-IN"),status:"done"};
-    const nu={...tu,balance:tu.balance+req.amount,transactions:[tx,...(tu.transactions||[])]};
-    await saveU(users.map(u=>u.id===tu.id?nu:u)); await saveR(reqs.map(r=>r.id===id?{...r,status:"approved"}:r));
-    if(user.id===tu.id) setUser(nu); toast(`✅ ₹${req.amount} credited to ${req.userName}!`);
+  const tu = users.find(u => u.id === req.userId);
+  if (!tu) return;
+
+  const amount = Number(req.amount);
+
+  const tx = {
+    id: Date.now(),
+    type: "credit",
+    desc: `Deposit Approved ₹${amount}`,
+    amount: amount,
+    date: new Date().toLocaleDateString("en-IN"),
+    status: "done"
   };
+
+  const nu = {
+    ...tu,
+    balance: Number(tu.balance || 0) + amount,
+    transactions: [tx, ...(tu.transactions || [])]
+  };
+
+  await saveU(
+    users.map(u =>
+      u.id === tu.id ? nu : u
+    )
+  );
+
+  await saveR(
+    reqs.map(r =>
+      r.id === id
+      ? { ...r, status:"approved" }
+      : r
+    )
+  );
+
+  if (user?.id === tu.id) {
+    setUser(nu);
+  }
+
+  toast(`✅ ₹${amount} credited to ${req.userName}!`);
+};
 
   const rejectDeposit = async id => { await saveR(reqs.map(r=>r.id===id?{...r,status:"rejected"}:r)); toast("Deposit rejected."); };
 
