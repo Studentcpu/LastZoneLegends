@@ -984,7 +984,6 @@ const deleteUser = async (id) => {
 
 return (
   <div>
-  return (
     <div>
       <div style={{fontSize:16,fontWeight:900,marginBottom:14,paddingTop:4}}>Users ({users.filter(u=>u.role==="user").length} players)</div>
       <input style={{...inp,padding:"10px 14px",marginBottom:14}} placeholder="🔍 Search by name or email..." value={search} onChange={e=>setSearch(e.target.value)}/>
