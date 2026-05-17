@@ -971,13 +971,16 @@ function AdminUsers({ users, onSave, toast }) {
   const save=async()=>{...}
 const addBal=async(uid,amt)=>{...}
 const deductBal=async(uid,amt)=>{...}
-
 const deleteUser = async (id) => {
   const filteredUsers = users.filter(
     u => u.id !== id
   );
 
   await onSave(filteredUsers);
+
+  if (user?.id === id) {
+    setUser(null);
+  }
 
   toast("🗑️ User deleted successfully!");
 };
