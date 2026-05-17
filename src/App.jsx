@@ -144,7 +144,21 @@ const g = sg || D.settings;
     })();
   }, []);
 
-  const saveU = async u => { setUsers(u); await db.set("lzl-u",u); };
+  const saveU = async (u) => {
+  setUsers(u);
+
+  if (user) {
+    const updatedUser = u.find(
+      x => x.id === user.id
+    );
+
+    if (updatedUser) {
+      setUser(updatedUser);
+    }
+  }
+
+  await db.set("lzl-u", u);
+};
   const saveT = async t => { setTours(t); await db.set("lzl-t",t); };
   const saveR = async r => { setReqs(r); await db.set("lzl-r",r); };
   const saveG = async g => { setSettings(g); await db.set("lzl-g",g); };
