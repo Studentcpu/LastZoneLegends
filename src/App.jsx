@@ -205,7 +205,7 @@ const register = async (name,email,pass) => {
       password: pass,
       name: name,
       role: "user",
-      balance: 100,
+      balance: 0,
       bgmiUid: "",
       ffUid: "",
       joined: [],
