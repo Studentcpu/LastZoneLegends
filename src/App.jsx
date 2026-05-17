@@ -158,10 +158,20 @@ const login = async (email, pass) => {
     );
 
 if(email==="admin@lastzone.com" && pass==="admin123"){
-  const admin = D.users.find(u=>u.role==="admin");
+  const admin = users.find(
+    u => u.role==="admin"
+  );
+
   setUser(admin);
-  db.set("lzl-s",{id:admin.id});
+
+  await db.set("lzl-s", {
+    id: admin.id
+  });
+
   setScreen("admin");
+
+  toast(`Welcome ${admin.name} 🎮`);
+
   return;
 }
     const snap = await getDocs(q);
