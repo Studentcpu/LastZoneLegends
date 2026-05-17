@@ -219,8 +219,8 @@ const register = async (name,email,pass) => {
 
     await saveU([...users,nu]);
 
-    setUser(nu);
-
+    //setUser(nu);
+setUser({...nu, balance:0});
     db.set("lzl-s",{id:nu.id});
 
     setScreen("app");
