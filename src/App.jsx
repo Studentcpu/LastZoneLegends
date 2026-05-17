@@ -163,7 +163,21 @@ const g = sg || D.settings;
   await saveU(updatedUsers);
 };
   const saveT = async t => { setTours(t); await db.set("lzl-t",t); };
-  const saveR = async r => { setReqs(r); await db.set("lzl-r",r); };
+  const saveR = async (r) => {
+  setReqs(r);
+
+  await db.set("lzl-r", r);
+
+  if(user){
+    const updatedUser = users.find(
+      x => x.id === user.id
+    );
+
+    if(updatedUser){
+      setUser(updatedUser);
+    }
+  }
+};
   const saveG = async g => { setSettings(g); await db.set("lzl-g",g); };
   const toast = (msg, type="success") => { setNotif({msg,type}); setTimeout(()=>setNotif(null),3000); };
 
