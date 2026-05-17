@@ -980,19 +980,7 @@ function AdminUsers({ users, onSave, toast }) {
 };
   const addBal=async(uid,amt)=>{const n=Number(amt);if(isNaN(n)||n<=0)return;const tx={id:Date.now(),type:"credit",desc:`Admin Added ₹${n}`,amount:n,date:new Date().toLocaleDateString("en-IN"),status:"done"};await onSave(users.map(u=>u.id===uid?{...u,balance:u.balance+n,transactions:[tx,...(u.transactions||[])]}:u));toast(`✅ ₹${n} added!`);};
   const deductBal=async(uid,amt)=>{const n=Number(amt);if(isNaN(n)||n<=0)return;const tgt=users.find(u=>u.id===uid);if(tgt.balance<n)return toast("❌ Not enough balance","error");const tx={id:Date.now(),type:"debit",desc:`Admin Deducted ₹${n}`,amount:n,date:new Date().toLocaleDateString("en-IN"),status:"done"};await onSave(users.map(u=>u.id===uid?{...u,balance:u.balance-n,transactions:[tx,...(u.transactions||[])]}:u));toast(`✅ ₹${n} deducted!`);};
-const deleteUser = async (id) => {
-  if(id === 1){
-    return toast("❌ Admin account can't be deleted","error");
-  }
 
-  const filteredUsers = users.filter(
-    u => u.id !== id
-  );
-
-  await onSave(filteredUsers);
-
-  toast("🗑️ User deleted successfully!");
-};
 return (
   <div>
     <div>
@@ -1013,19 +1001,7 @@ return (
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6}}>
               <button onClick={()=>setEditU({...u})} style={{padding:9,background:"rgba(255,215,64,.08)",border:"1px solid rgba(255,215,64,.3)",borderRadius:8,color:C.gold,fontWeight:700,fontSize:11,cursor:"pointer"}}>✏️ Edit</button>
               <button onClick={()=>{const a=prompt("Add balance (₹):");if(a)addBal(u.id,a);}} style={{padding:9,background:"rgba(0,230,118,.08)",border:"1px solid rgba(0,230,118,.3)",borderRadius:8,color:C.green,fontWeight:700,fontSize:11,cursor:"pointer"}}>➕ Add</button>
-            <button
-  onClick={() => deleteUser(u.id)}
-  style={{
-    padding:"10px",
-    background:"red",
-    color:"white",
-    border:"none",
-    borderRadius:8,
-    marginTop:8
-  }}
->
-  Delete User 🗑️
-</button>
+      
             <button onClick={()=>{const a=prompt("Deduct balance (₹):");if(a)deductBal(u.id,a);}} style={{padding:9,background:"rgba(255,60,60,.08)",border:"1px solid rgba(255,60,60,.3)",borderRadius:8,color:"#ff6b6b",fontWeight:700,fontSize:11,cursor:"pointer"}}>➖ Deduct</button>
             </div>
         
