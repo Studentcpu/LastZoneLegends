@@ -963,13 +963,23 @@ function AdminTours({ tours, onSave, toast }) {
 }
 
 function AdminUsers({ users, onSave, toast }) {
-  const [editU,setEditU]=useState(null); const [search,setSearch]=useState("");
-  const list=users.filter(u=>u.name.toLowerCase().includes(search.toLowerCase())||u.email.toLowerCase().includes(search.toLowerCase()));
-  const addBal=async(uid,amt)=>{const n=Number(amt);if(isNaN(n)||n<=0)return;const tx={id:Date.now(),type:"credit",desc:`Admin Added ₹${n}`,amount:n,date:new Date().toLocaleDateString("en-IN"),status:"done"};await onSave(users.map(u=>u.id===uid?{...u,balance:u.balance+n,transactions:[tx,...(u.transactions||[])]}:u));toast(`✅ ₹${n} added!`);};
-  const deductBal=async(uid,amt)=>{const n=Number(amt);if(isNaN(n)||n<=0)return;const tgt=users.find(u=>u.id===uid);if(tgt.balance<n)return toast("❌ Not enough balance","error");const tx={id:Date.now(),type:"debit",desc:`Admin Deducted ₹${n}`,amount:n,date:new Date().toLocaleDateString("en-IN"),status:"done"};await onSave(users.map(u=>u.id===uid?{...u,balance:u.balance-n,transactions:[tx,...(u.transactions||[])]}:u));toast(`✅ ₹${n} deducted!`);};
+  const [editU,setEditU]=useState(null);
+  const [search,setSearch]=useState("");
 
-return (
-  <div>
+  const list=users.filter(...);
+
+  const save = async () => {
+     ...
+  };
+
+  const addBal = async(uid,amt) => {
+     ...
+  };
+
+  const deductBal = async(uid,amt) => {
+     ...
+  };
+  return (
     <div>
       <div style={{fontSize:16,fontWeight:900,marginBottom:14,paddingTop:4}}>Users ({users.filter(u=>u.role==="user").length} players)</div>
       <input style={{...inp,padding:"10px 14px",marginBottom:14}} placeholder="🔍 Search by name or email..." value={search} onChange={e=>setSearch(e.target.value)}/>
