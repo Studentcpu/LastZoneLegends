@@ -975,10 +975,8 @@ const deleteUser = async (id) => {
 
   await onSave(filteredUsers);
 
-
   toast("🗑️ User deleted successfully!");
 };
-
 return (
   <div>
     <div>
