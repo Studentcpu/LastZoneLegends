@@ -968,9 +968,6 @@ function AdminUsers({ users, onSave, toast }) {
   const save=async()=>{await onSave(users.map(u=>u.id===editU.id?{...editU,balance:Number(editU.balance)}:u));setEditU(null);toast("✅ User updated!");};
   const addBal=async(uid,amt)=>{const n=Number(amt);if(isNaN(n)||n<=0)return;const tx={id:Date.now(),type:"credit",desc:`Admin Added ₹${n}`,amount:n,date:new Date().toLocaleDateString("en-IN"),status:"done"};await onSave(users.map(u=>u.id===uid?{...u,balance:u.balance+n,transactions:[tx,...(u.transactions||[])]}:u));toast(`✅ ₹${n} added!`);};
   const deductBal=async(uid,amt)=>{const n=Number(amt);if(isNaN(n)||n<=0)return;const tgt=users.find(u=>u.id===uid);if(tgt.balance<n)return toast("❌ Not enough balance","error");const tx={id:Date.now(),type:"debit",desc:`Admin Deducted ₹${n}`,amount:n,date:new Date().toLocaleDateString("en-IN"),status:"done"};await onSave(users.map(u=>u.id===uid?{...u,balance:u.balance-n,transactions:[tx,...(u.transactions||[])]}:u));toast(`✅ ₹${n} deducted!`);};
-  const save=async()=>{...}
-const addBal=async(uid,amt)=>{...}
-const deductBal=async(uid,amt)=>{...}
 const deleteUser = async (id) => {
   const filteredUsers = users.filter(
     u => u.id !== id
