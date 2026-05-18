@@ -839,65 +839,239 @@ function HistoryView({ user, reqs, onBack }) {
 // ══════════════════════════════════════════════════════════
 //  PROFILE
 // ══════════════════════════════════════════════════════════
+
 function ProfileTab({ user, onLogout, toast, onUpdate }) {
-  const [editing,setEditing]=useState(false); const [bgmi,setBgmi]=useState(user.bgmiUid||""); const [ff,setFf]=useState(user.ffUid||"");
+  const [editing, setEditing] = useState(false);
+  const [bgmi, setBgmi] = useState(user.bgmiUid || "");
+  const [ff, setFf] = useState(user.ffUid || "");
+
   return (
     <div>
-      <div style={{fontSize:20,fontWeight:900,padding:"16px 0 12px"}}>👤 Profile</div>
-      <div style={{textAlign:"center",padding:"24px 16px",background:C.card,borderRadius:16,marginBottom:14,border:`1px solid ${C.border}`}}>
-        <div style={{width:70,height:70,borderRadius:"50%",background:`linear-gradient(135deg,${C.red},${C.orange})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,fontWeight:900,margin:"0 auto 12px",boxShadow:"0 0 20px rgba(255,60,60,.4)"}}>{user.name[0]}</div>
-        <div style={{fontSize:22,fontWeight:900,marginBottom:4}}>{user.name}</div>
-        <div style={{fontSize:12,color:"#555",marginBottom:12}}>{user.email}</div>
-        <span style={{fontSize:11,padding:"4px 12px",background:"rgba(255,215,64,.1)",border:"1px solid rgba(255,215,64,.3)",borderRadius:20,color:C.gold,fontWeight:700}}>🎮 Player</span>
+      <div style={{
+        fontSize:20,
+        fontWeight:900,
+        padding:"16px 0 12px"
+      }}>
+        👤 Profile
       </div>
-      <div style={{background:C.card,borderRadius:12,padding:16,marginBottom:12,border:`1px solid ${C.border}`}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-          <span style={{fontSize:14,fontWeight:800}}>Game UIDs</span>
-          <button onClick={()=>{if(editing){onUpdate({...user,bgmiUid:bgmi,ffUid:ff});toast("UIDs saved! ✅");}setEditing(!editing);}} style={{background:editing?"rgba(0,230,118,.1)":"rgba(255,255,255,.07)",border:editing?"1px solid #00e676":"1px solid rgba(255,255,255,.15)",borderRadius:8,padding:"6px 14px",color:editing?C.green:"#fff",fontWeight:700,fontSize:12,cursor:"pointer"}}>{editing?"Save ✅":"Edit ✏️"}</button>
+
+      <div style={{
+        textAlign:"center",
+        padding:"24px 16px",
+        background:C.card,
+        borderRadius:16,
+        marginBottom:14,
+        border:`1px solid ${C.border}`
+      }}>
+        <div style={{
+          width:70,
+          height:70,
+          borderRadius:"50%",
+          background:`linear-gradient(135deg,${C.red},${C.orange})`,
+          display:"flex",
+          alignItems:"center",
+          justifyContent:"center",
+          fontSize:28,
+          fontWeight:900,
+          margin:"0 auto 12px",
+          boxShadow:"0 0 20px rgba(255,60,60,.4)"
+        }}>
+          {user.name[0]}
         </div>
-        {[["🔫 BGMI UID",bgmi,setBgmi],["🔥 FreeFire UID",ff,setFf]].map(([label,val,setter])=>(
+
+        <div style={{
+          fontSize:22,
+          fontWeight:900,
+          marginBottom:4
+        }}>
+          {user.name}
+        </div>
+
+        <div style={{
+          fontSize:12,
+          color:"#555",
+          marginBottom:12
+        }}>
+          {user.email}
+        </div>
+
+        <span style={{
+          fontSize:11,
+          padding:"4px 12px",
+          background:"rgba(255,215,64,.1)",
+          border:"1px solid rgba(255,215,64,.3)",
+          borderRadius:20,
+          color:C.gold,
+          fontWeight:700
+        }}>
+          🎮 Player
+        </span>
+      </div>
+
+      <div style={{
+        background:C.card,
+        borderRadius:12,
+        padding:16,
+        marginBottom:12,
+        border:`1px solid ${C.border}`
+      }}>
+        <div style={{
+          display:"flex",
+          justifyContent:"space-between",
+          alignItems:"center",
+          marginBottom:12
+        }}>
+          <span style={{
+            fontSize:14,
+            fontWeight:800
+          }}>
+            Game UIDs
+          </span>
+
+          <button
+            onClick={()=>{
+              if(editing){
+                onUpdate({
+                  ...user,
+                  bgmiUid:bgmi,
+                  ffUid:ff
+                });
+
+                toast("UIDs saved! ✅");
+              }
+
+              setEditing(!editing);
+            }}
+            style={{
+              background:editing
+              ?"rgba(0,230,118,.1)"
+              :"rgba(255,255,255,.07)",
+
+              border:editing
+              ?"1px solid #00e676"
+              :"1px solid rgba(255,255,255,.15)",
+
+              borderRadius:8,
+              padding:"6px 14px",
+              color:editing?C.green:"#fff",
+              fontWeight:700,
+              fontSize:12,
+              cursor:"pointer"
+            }}
+          >
+            {editing ? "Save ✅" : "Edit ✏️"}
+          </button>
+        </div>
+
+        {[
+          ["🔫 BGMI UID", bgmi, setBgmi],
+          ["🔥 FreeFire UID", ff, setFf]
+        ].map(([label,val,setter])=>(
           <div key={label} style={{marginBottom:10}}>
-            <div style={{fontSize:11,color:"#666",marginBottom:4}}>{label}</div>
-            {editing?<input style={{...inp,padding:"8px 12px",fontSize:14}} value={val} onChange={e=>setter(e.target.value)} placeholder="Enter UID"/>:<div style={{fontSize:15,fontWeight:700,color:val?"#fff":"#444"}}>{val||"Not set"}</div>}
+
+            <div style={{
+              fontSize:11,
+              color:"#666",
+              marginBottom:4
+            }}>
+              {label}
+            </div>
+
+            {editing ? (
+              <input
+                style={{
+                  ...inp,
+                  padding:"8px 12px",
+                  fontSize:14
+                }}
+                value={val}
+                onChange={e=>setter(e.target.value)}
+                placeholder="Enter UID"
+              />
+            ) : (
+              <div style={{
+                fontSize:15,
+                fontWeight:700,
+                color:val ? "#fff":"#444"
+              }}>
+                {val || "Not set"}
+              </div>
+            )}
+
           </div>
         ))}
       </div>
-      [
-  {
-    icon:"👥",
-    label:"Refer & Earn ₹50",
-    action:()=>toast("Referral link copied! 🎉")
-  },
-  {
-    icon:"🛟",
-    label:"Help & Support",
-    action:()=>window.open(
-      "https://wa.me/917068680067?text=Hi%20I%20need%20help%20with%20Last%20Zone%20Legends",
-      "_blank"
-    )
-  },
-  {
-    icon:"💻",
-    label:"Rules & Fair Play",
-    action:()=>toast("No hacking. Play fair! ⚔️")
-  },
-  {
-    icon:"🚪",
-    label:"Logout",
-    action:onLogout,
-    danger:true
-  }
-].map(item=>(
-        <div key={item.label} style={{display:"flex",alignItems:"center",gap:14,padding:"14px 12px",background:C.card,borderRadius:10,marginBottom:6,cursor:"pointer",border:`1px solid ${C.border}`}} onClick={item.action}>
-          <span style={{fontSize:20}}>{item.icon}</span>
-          <span style={{flex:1,fontSize:14,fontWeight:700,color:item.danger?"#ff5252":"#fff"}}>{item.label}</span>
-          <span style={{color:"#444",fontSize:20}}>›</span>
+
+      {[
+        {
+          icon:"👥",
+          label:"Refer & Earn ₹50",
+          action:()=>toast("Referral link copied! 🎉")
+        },
+        {
+          icon:"🛟",
+          label:"Help & Support",
+          action:()=>window.open(
+            "https://wa.me/917068680067?text=Hi%20I%20need%20help%20with%20Last%20Zone%20Legends",
+            "_blank"
+          )
+        },
+        {
+          icon:"💻",
+          label:"Rules & Fair Play",
+          action:()=>toast(
+            "No hacking. Play fair! ⚔️"
+          )
+        },
+        {
+          icon:"🚪",
+          label:"Logout",
+          action:onLogout,
+          danger:true
+        }
+
+      ].map(item=>(
+        <div
+          key={item.label}
+          onClick={item.action}
+          style={{
+            display:"flex",
+            alignItems:"center",
+            gap:14,
+            padding:"14px 12px",
+            background:C.card,
+            borderRadius:10,
+            marginBottom:6,
+            cursor:"pointer",
+            border:`1px solid ${C.border}`
+          }}
+        >
+          <span style={{fontSize:20}}>
+            {item.icon}
+          </span>
+
+          <span style={{
+            flex:1,
+            fontSize:14,
+            fontWeight:700,
+            color:item.danger
+            ? "#ff5252"
+            : "#fff"
+          }}>
+            {item.label}
+          </span>
+
+          <span style={{
+            color:"#444",
+            fontSize:20
+          }}>
+            ›
+          </span>
         </div>
       ))}
     </div>
   );
 }
-
 // ══════════════════════════════════════════════════════════
 //  ADMIN PANEL
 // ══════════════════════════════════════════════════════════
