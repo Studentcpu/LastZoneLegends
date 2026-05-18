@@ -218,23 +218,18 @@ const localUser = users.find(
 );
 
 setUser(localUser || found);
-
-db.set("lzl-s", {
-  id: found.id
-});
+localStorage.setItem(
+  "lzl-s",
+  JSON.stringify({
+    id: found.id
+  })
+);
 
 setScreen(
   found.role === "admin"
     ? "admin"
     : "app"
 );
-
-    setUser(found);
-    db.set("lzl-s", { id: found.id });
-
-    setScreen(
-      found.role === "admin" ? "admin" : "app"
-    );
 
     toast(`Welcome ${found.name} 🎮`);
   } catch {
@@ -287,7 +282,7 @@ setUser({...nu, balance:0});
 };
 
 
-  const logout = () => { setUser(null); db.set("lzl-s",null); setScreen("login"); setTab("home"); };
+  const logout = () => { setUser(null);  localStorage.removeItem("lzl-s"); setScreen("login"); setTab("home"); };
 
   const joinTour = async t => {
     if(user.joined?.includes(t.id)) return toast("Already joined!","warn");
