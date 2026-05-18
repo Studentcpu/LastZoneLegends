@@ -862,7 +862,7 @@ function ProfileTab({ user, onLogout, toast, onUpdate }) {
           </div>
         ))}
       </div>
-      {[{icon:"👥",label:"Refer & Earn ₹50",action:()=>toast("Referral link copied! 🎉")},{icon:"🛟",label:"Help & Support",action:()=>toast("WhatsApp: +91 98765XXXXX")},{icon:"📋",label:"Rules & Fair Play",action:()=>toast("No hacking. Play fair! ⚔️")},{icon:"🚪",label:"Logout",action:onLogout,danger:true}].map(item=>(
+      {[{icon:"👥",label:"Refer & Earn ₹50",action:()=>toast("Referral link copied! 🎉")},{icon:"🛟",label:"Help & Support",action:()=>toast("WhatsApp: https://wa.me/917068680067?text=Hi%20I%20need%20help%20with%20Last%20Zone%20Legends)},{icon:"📋",label:"Rules & Fair Play",action:()=>toast("No hacking. Play fair! ⚔️")},{icon:"🚪",label:"Logout",action:onLogout,danger:true}].map(item=>(
         <div key={item.label} style={{display:"flex",alignItems:"center",gap:14,padding:"14px 12px",background:C.card,borderRadius:10,marginBottom:6,cursor:"pointer",border:`1px solid ${C.border}`}} onClick={item.action}>
           <span style={{fontSize:20}}>{item.icon}</span>
           <span style={{flex:1,fontSize:14,fontWeight:700,color:item.danger?"#ff5252":"#fff"}}>{item.label}</span>
